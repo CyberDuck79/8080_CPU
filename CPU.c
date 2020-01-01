@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 17:39:10 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/01 18:24:43 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/01 18:36:34 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	emulate_8080(t_state *state)
 	// OU
 	// avoir un tableau de pointeurs sur fonction
 	// parcour d'un tableau des codes renvoyant un index
-	// execution de la fonction a cette index dans le tableau de pointeur
+	// execution de la fonction a cet index dans le tableau de pointeur
 }
 
 t_error	load_into_memory(t_state *state, char *filename)
