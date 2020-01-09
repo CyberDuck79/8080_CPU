@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 12:13:37 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/09 12:24:47 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/09 13:55:29 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 #include "emulator.h"
 
-void	disassemble_instructions_ini(t_instructions intruction_set[0xFF]);
+void	disassemble_instructions_ini(t_asm_inst intruction_set[0xFF]);
 
 #endif

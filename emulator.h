@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 17:23:15 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/09 12:27:27 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/09 13:57:00 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <strings.h>
 
 typedef uint8_t		t_memory;
 typedef uint16_t	t_opsize;
@@ -48,12 +49,14 @@ typedef struct		s_registers
 	t_flags			CC;
 }					t_registers;
 
-typedef				t_opsize (*t_instructions)(t_registers*,t_memory*);
+typedef				t_opsize (*t_asm_inst)(t_memory*);
+typedef				void (*t_emu_inst)(t_registers*,t_memory*);
 
 typedef struct		s_cpu
 {
 	t_memory		mem[0x10000]; // 16k
-	uint16_t		ROM_size; // voir si utile intégré au cpu
-	t_registers		*reg;
-	t_instructions	exec[0xFF];
+	uint16_t		ROM_size;
+	t_registers		reg;
+	t_asm_inst		debug[0xFF];
+	t_emu_inst		exec[0xFF];
 }					t_cpu;
