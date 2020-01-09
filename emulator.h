@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   CPU.h                                              :+:      :+:    :+:   */
+/*   emulator.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 17:23:15 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/03 17:30:35 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/09 12:27:27 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,45 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-typedef enum	e_error
+typedef uint8_t		t_memory;
+typedef uint16_t	t_opsize;
+
+typedef enum		e_error
 {
 	NO_ERROR,
 	ERROR
-}				t_error;
+}					t_error;
 
-typedef struct	s_flags
+typedef struct		s_flags
 {
-	uint8_t		z:1;
-	uint8_t		s:1;
-	uint8_t		p:1;
-	uint8_t		cy:1;
-	uint8_t		ac:1;
-	uint8_t		pad:3;
-}				t_flags;
+	uint8_t			Z:1;
+	uint8_t			S:1;
+	uint8_t			P:1;
+	uint8_t			CY:1;
+	uint8_t			AC:1;
+	uint8_t			PAD:3;
+}					t_flags;
 
-typedef struct	s_state
+typedef struct		s_registers
 {
-	uint8_t		a;
-	uint8_t		b;
-	uint8_t		c;
-	uint8_t		d;
-	uint8_t		e;
-	uint8_t		h;
-	uint8_t		l;
-	uint16_t	sp;
-	uint16_t	pc;
-	uint8_t		memory[0x10000]; // 16k
-	t_flags		cc;
-	uint8_t		int_enable;
-}				t_state;
+	uint8_t			A;
+	uint8_t			B;
+	uint8_t			C;
+	uint8_t			D;
+	uint8_t			E;
+	uint8_t			H;
+	uint8_t			L;
+	uint16_t		SP;
+	uint16_t		PC;
+	t_flags			CC;
+}					t_registers;
+
+typedef				t_opsize (*t_instructions)(t_registers*,t_memory*);
+
+typedef struct		s_cpu
+{
+	t_memory		mem[0x10000]; // 16k
+	uint16_t		ROM_size; // voir si utile intégré au cpu
+	t_registers		*reg;
+	t_instructions	exec[0xFF];
+}					t_cpu;
