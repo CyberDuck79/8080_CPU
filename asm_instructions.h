@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   disassemble_instructions.h                         :+:      :+:    :+:   */
+/*   asm_instructions.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 12:08:04 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/10 18:05:51 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/11 10:32:43 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DISASSEMBLE_INSTRUCTIONS_H
-# define DISASSEMBLE_INSTRUCTIONS_H
+#ifndef ASM_INSTRUCTIONS_H
+# define ASM_INSTRUCTIONS_H
 
 # include "emulator.h"
 
@@ -21,7 +21,9 @@ t_opsize	STC(t_memory *mem);
 t_opsize	CMC(t_memory *mem);
 t_opsize	HLT(t_memory *mem);
 t_opsize	RNZ(t_memory *mem);
+t_opsize	RNC(t_memory *mem);
 t_opsize	RZ(t_memory *mem);
+t_opsize	RC(t_memory *mem);
 t_opsize	RET(t_memory *mem);
 t_opsize	LXI_B(t_memory *mem);
 t_opsize	LXI_D(t_memory *mem);
@@ -204,16 +206,28 @@ t_opsize	CMP_H(t_memory *mem);
 t_opsize	CMP_L(t_memory *mem);
 t_opsize	CMP_M(t_memory *mem);
 t_opsize	POP_B(t_memory *mem);
+t_opsize	POP_D(t_memory *mem);
 t_opsize	PUSH_B(t_memory *mem);
+t_opsize	PUSH_D(t_memory *mem);
 t_opsize	JNZ(t_memory *mem);
+t_opsize	JNC(t_memory *mem);
 t_opsize	JMP(t_memory *mem);
 t_opsize	CNZ(t_memory *mem);
+t_opsize	CNC(t_memory *mem);
 t_opsize	JZ(t_memory *mem);
+t_opsize	JC(t_memory *mem);
 t_opsize	CZ(t_memory *mem);
+t_opsize	CC(t_memory *mem);
 t_opsize	CALL(t_memory *mem);
 t_opsize	ADI(t_memory *mem);
 t_opsize	ACI(t_memory *mem);
+t_opsize	SUI(t_memory *mem);
+t_opsize	SBI(t_memory *mem);
+t_opsize	IN(t_memory *mem);
+t_opsize	OUT(t_memory *mem);
 t_opsize	RST_0(t_memory *mem);
 t_opsize	RST_1(t_memory *mem);
+t_opsize	RST_2(t_memory *mem);
+t_opsize	RST_3(t_memory *mem);
 
 #endif

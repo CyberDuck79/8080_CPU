@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   disassemble_instructions.c                         :+:      :+:    :+:   */
+/*   asm_instructions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 12:08:59 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/10 18:06:05 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/11 10:32:32 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "disassemble_instructions.h"
+#include "asm_instructions.h"
 
 t_opsize	NOP(t_memory *mem)
 {
@@ -44,13 +44,25 @@ t_opsize	HLT(t_memory *mem)
 
 t_opsize	RNZ(t_memory *mem)
 {
-	printf("$%02x: RZN\n", *mem);
+	printf("$%02x: RNZ\n", *mem);
+	return (1);
+}
+
+t_opsize	RNC(t_memory *mem)
+{
+	printf("$%02x: RNC\n", *mem);
 	return (1);
 }
 
 t_opsize	RZ(t_memory *mem)
 {
-	printf("$%02x: RZN\n", *mem);
+	printf("$%02x: RZ\n", *mem);
+	return (1);
+}
+
+t_opsize	RC(t_memory *mem)
+{
+	printf("$%02x: RZ\n", *mem);
 	return (1);
 }
 
@@ -1138,15 +1150,33 @@ t_opsize	POP_B(t_memory *mem)
 	return (1);
 }
 
-t_opsize	PUSH_B(t_memory *mem)
+t_opsize	POP_D(t_memory *mem)
 {
 	printf("$%02x: POP    B\n", *mem);
+	return (1);
+}
+
+t_opsize	PUSH_B(t_memory *mem)
+{
+	printf("$%02x: PUSH   B\n", *mem);
+	return (1);
+}
+
+t_opsize	PUSH_D(t_memory *mem)
+{
+	printf("$%02x: PUSH   D\n", *mem);
 	return (1);
 }
 
 t_opsize	JNZ(t_memory *mem)
 {
 	printf("$%02x: JNZ     $%02x%02x\n", *mem, mem[2], mem[1]);
+	return (3);
+}
+
+t_opsize	JNZ(t_memory *mem)
+{
+	printf("$%02x: JNC     $%02x%02x\n", *mem, mem[2], mem[1]);
 	return (3);
 }
 
@@ -1162,15 +1192,33 @@ t_opsize	CNZ(t_memory *mem)
 	return (3);
 }
 
+t_opsize	CNC(t_memory *mem)
+{
+	printf("$%02x: CNC     $%02x%02x\n", *mem, mem[2], mem[1]);
+	return (3);
+}
+
 t_opsize	JZ(t_memory *mem)
 {
 	printf("$%02x: JZ      $%02x%02x\n", *mem, mem[2], mem[1]);
 	return (3);
 }
 
+t_opsize	JC(t_memory *mem)
+{
+	printf("$%02x: JC      $%02x%02x\n", *mem, mem[2], mem[1]);
+	return (3);
+}
+
 t_opsize	CZ(t_memory *mem)
 {
 	printf("$%02x: CZ      $%02x%02x\n", *mem, mem[2], mem[1]);
+	return (3);
+}
+
+t_opsize	CC(t_memory *mem)
+{
+	printf("$%02x: CC      $%02x%02x\n", *mem, mem[2], mem[1]);
 	return (3);
 }
 
@@ -1192,6 +1240,30 @@ t_opsize	ACI(t_memory *mem)
 	return (2);
 }
 
+t_opsize	SUI(t_memory *mem)
+{
+	printf("$%02x: SUI     $%02x\n", *mem, mem[1]);
+	return (2);
+}
+
+t_opsize	SBI(t_memory *mem)
+{
+	printf("$%02x: SBI     $%02x\n", *mem, mem[1]);
+	return (2);
+}
+
+t_opsize	IN(t_memory *mem)
+{
+	printf("$%02x: IN      $%02x\n", *mem, mem[1]);
+	return (2);
+}
+
+t_opsize	OUT(t_memory *mem)
+{
+	printf("$%02x: OUT     $%02x\n", *mem, mem[1]);
+	return (2);
+}
+
 t_opsize	RST_0(t_memory *mem)
 {
 	printf("$%02x: RST    0\n", *mem);
@@ -1201,5 +1273,17 @@ t_opsize	RST_0(t_memory *mem)
 t_opsize	RST_1(t_memory *mem)
 {
 	printf("$%02x: RST    1\n", *mem);
+	return (1);
+}
+
+t_opsize	RST_2(t_memory *mem)
+{
+	printf("$%02x: RST    2\n", *mem);
+	return (1);
+}
+
+t_opsize	RST_3(t_memory *mem)
+{
+	printf("$%02x: RST    3\n", *mem);
 	return (1);
 }
