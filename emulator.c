@@ -6,12 +6,12 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 17:39:10 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/09 14:00:47 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/11 10:36:04 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "emulator.h"
-#include "disassemble_initialization.h"
+#include "disassembler_ini.h"
 
 static t_opsize	disassemble_8080(t_cpu	*cpu)
 {
