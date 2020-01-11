@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 12:08:59 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 10:32:32 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/11 11:16:15 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,30 @@ t_opsize	HLT(t_memory *mem)
 	return (1);
 }
 
+t_opsize	XTHL(t_memory *mem)
+{
+	printf("$%02x: XTHL\n", *mem);
+	return (1);
+}
+
+t_opsize	SPHL(t_memory *mem)
+{
+	printf("$%02x: SPHL\n", *mem);
+	return (1);
+}
+
+t_opsize	XCHG(t_memory *mem)
+{
+	printf("$%02x: XCHG\n", *mem);
+	return (1);
+}
+
+t_opsize	PCHL(t_memory *mem)
+{
+	printf("$%02x: PCHL\n", *mem);
+	return (1);
+}
+
 t_opsize	RNZ(t_memory *mem)
 {
 	printf("$%02x: RNZ\n", *mem);
@@ -54,6 +78,24 @@ t_opsize	RNC(t_memory *mem)
 	return (1);
 }
 
+t_opsize	RP(t_memory *mem)
+{
+	printf("$%02x: RP\n", *mem);
+	return (1);
+}
+
+t_opsize	RPO(t_memory *mem)
+{
+	printf("$%02x: RPO\n", *mem);
+	return (1);
+}
+
+t_opsize	RPE(t_memory *mem)
+{
+	printf("$%02x: RPE\n", *mem);
+	return (1);
+}
+
 t_opsize	RZ(t_memory *mem)
 {
 	printf("$%02x: RZ\n", *mem);
@@ -62,13 +104,31 @@ t_opsize	RZ(t_memory *mem)
 
 t_opsize	RC(t_memory *mem)
 {
-	printf("$%02x: RZ\n", *mem);
+	printf("$%02x: RC\n", *mem);
+	return (1);
+}
+
+t_opsize	RM(t_memory *mem)
+{
+	printf("$%02x: RM\n", *mem);
+	return (1);
+}
+
+t_opsize	DI(t_memory *mem)
+{
+	printf("$%02x: DI\n", *mem);
+	return (1);
+}
+
+t_opsize	EI(t_memory *mem)
+{
+	printf("$%02x: EI\n", *mem);
 	return (1);
 }
 
 t_opsize	RET(t_memory *mem)
 {
-	printf("$%02x: RZN\n", *mem);
+	printf("$%02x: RET\n", *mem);
 	return (1);
 }
 
@@ -266,7 +326,7 @@ t_opsize	MVI_H(t_memory *mem)
 
 t_opsize	MVI_L(t_memory *mem)
 {
-	printf("$%02x: MVI    H,#$%02x\n", *mem, mem[1]);
+	printf("$%02x: MVI    L,#$%02x\n", *mem, mem[1]);
 	return (2);
 }
 
@@ -1098,49 +1158,49 @@ t_opsize	ORA_M(t_memory *mem)
 
 t_opsize	CMP_A(t_memory *mem)
 {
-	printf("$%02x: ORA    A\n", *mem);
+	printf("$%02x: CMP    A\n", *mem);
 	return (1);
 }
 
 t_opsize	CMP_B(t_memory *mem)
 {
-	printf("$%02x: ORA    B\n", *mem);
+	printf("$%02x: CMP    B\n", *mem);
 	return (1);
 }
 
 t_opsize	CMP_C(t_memory *mem)
 {
-	printf("$%02x: ORA    C\n", *mem);
+	printf("$%02x: CMP    C\n", *mem);
 	return (1);
 }
 
 t_opsize	CMP_D(t_memory *mem)
 {
-	printf("$%02x: ORA    D\n", *mem);
+	printf("$%02x: CMP    D\n", *mem);
 	return (1);
 }
 
 t_opsize	CMP_E(t_memory *mem)
 {
-	printf("$%02x: ORA    E\n", *mem);
+	printf("$%02x: CMP    E\n", *mem);
 	return (1);
 }
 
 t_opsize	CMP_H(t_memory *mem)
 {
-	printf("$%02x: ORA    H\n", *mem);
+	printf("$%02x: CMP    H\n", *mem);
 	return (1);
 }
 
 t_opsize	CMP_L(t_memory *mem)
 {
-	printf("$%02x: ORA    L\n", *mem);
+	printf("$%02x: CMP    L\n", *mem);
 	return (1);
 }
 
 t_opsize	CMP_M(t_memory *mem)
 {
-	printf("$%02x: ORA    M\n", *mem);
+	printf("$%02x: CMP    M\n", *mem);
 	return (1);
 }
 
@@ -1156,6 +1216,18 @@ t_opsize	POP_D(t_memory *mem)
 	return (1);
 }
 
+t_opsize	POP_H(t_memory *mem)
+{
+	printf("$%02x: POP    H\n", *mem);
+	return (1);
+}
+
+t_opsize	POP_PSW(t_memory *mem)
+{
+	printf("$%02x: POP    PSW\n", *mem);
+	return (1);
+}
+
 t_opsize	PUSH_B(t_memory *mem)
 {
 	printf("$%02x: PUSH   B\n", *mem);
@@ -1168,21 +1240,81 @@ t_opsize	PUSH_D(t_memory *mem)
 	return (1);
 }
 
+t_opsize	PUSH_H(t_memory *mem)
+{
+	printf("$%02x: PUSH   H\n", *mem);
+	return (1);
+}
+
+t_opsize	PUSH_PSW(t_memory *mem)
+{
+	printf("$%02x: PUSH   PSW\n", *mem);
+	return (1);
+}
+
 t_opsize	JNZ(t_memory *mem)
 {
 	printf("$%02x: JNZ     $%02x%02x\n", *mem, mem[2], mem[1]);
 	return (3);
 }
 
-t_opsize	JNZ(t_memory *mem)
+t_opsize	JNC(t_memory *mem)
 {
 	printf("$%02x: JNC     $%02x%02x\n", *mem, mem[2], mem[1]);
+	return (3);
+}
+
+t_opsize	JM(t_memory *mem)
+{
+	printf("$%02x: JM      $%02x%02x\n", *mem, mem[2], mem[1]);
 	return (3);
 }
 
 t_opsize	JMP(t_memory *mem)
 {
 	printf("$%02x: JMP     $%02x%02x\n", *mem, mem[2], mem[1]);
+	return (3);
+}
+
+t_opsize	JP(t_memory *mem)
+{
+	printf("$%02x: JP      $%02x%02x\n", *mem, mem[2], mem[1]);
+	return (3);
+}
+
+t_opsize	JPO(t_memory *mem)
+{
+	printf("$%02x: JPO     $%02x%02x\n", *mem, mem[2], mem[1]);
+	return (3);
+}
+
+t_opsize	JPE(t_memory *mem)
+{
+	printf("$%02x: JPE     $%02x%02x\n", *mem, mem[2], mem[1]);
+	return (3);
+}
+
+t_opsize	CP(t_memory *mem)
+{
+	printf("$%02x: CP      $%02x%02x\n", *mem, mem[2], mem[1]);
+	return (3);
+}
+
+t_opsize	CM(t_memory *mem)
+{
+	printf("$%02x: CM      $%02x%02x\n", *mem, mem[2], mem[1]);
+	return (3);
+}
+
+t_opsize	CPO(t_memory *mem)
+{
+	printf("$%02x: CPO     $%02x%02x\n", *mem, mem[2], mem[1]);
+	return (3);
+}
+
+t_opsize	CPE(t_memory *mem)
+{
+	printf("$%02x: CPE     $%02x%02x\n", *mem, mem[2], mem[1]);
 	return (3);
 }
 
@@ -1252,6 +1384,30 @@ t_opsize	SBI(t_memory *mem)
 	return (2);
 }
 
+t_opsize	ANI(t_memory *mem)
+{
+	printf("$%02x: ANI     $%02x\n", *mem, mem[1]);
+	return (2);
+}
+
+t_opsize	XRI(t_memory *mem)
+{
+	printf("$%02x: XRI     $%02x\n", *mem, mem[1]);
+	return (2);
+}
+
+t_opsize	ORI(t_memory *mem)
+{
+	printf("$%02x: ORI     $%02x\n", *mem, mem[1]);
+	return (2);
+}
+
+t_opsize	CPI(t_memory *mem)
+{
+	printf("$%02x: CPI     $%02x\n", *mem, mem[1]);
+	return (2);
+}
+
 t_opsize	IN(t_memory *mem)
 {
 	printf("$%02x: IN      $%02x\n", *mem, mem[1]);
@@ -1285,5 +1441,29 @@ t_opsize	RST_2(t_memory *mem)
 t_opsize	RST_3(t_memory *mem)
 {
 	printf("$%02x: RST    3\n", *mem);
+	return (1);
+}
+
+t_opsize	RST_4(t_memory *mem)
+{
+	printf("$%02x: RST    4\n", *mem);
+	return (1);
+}
+
+t_opsize	RST_5(t_memory *mem)
+{
+	printf("$%02x: RST    5\n", *mem);
+	return (1);
+}
+
+t_opsize	RST_6(t_memory *mem)
+{
+	printf("$%02x: RST    6\n", *mem);
+	return (1);
+}
+
+t_opsize	RST_7(t_memory *mem)
+{
+	printf("$%02x: RST    7\n", *mem);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 12:08:04 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 10:32:43 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/11 11:08:39 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,20 @@ t_opsize	RLC(t_memory *mem);
 t_opsize	STC(t_memory *mem);
 t_opsize	CMC(t_memory *mem);
 t_opsize	HLT(t_memory *mem);
+t_opsize	XTHL(t_memory *mem);
+t_opsize	SPHL(t_memory *mem);
+t_opsize	XCHG(t_memory *mem);
+t_opsize	PCHL(t_memory *mem);
 t_opsize	RNZ(t_memory *mem);
 t_opsize	RNC(t_memory *mem);
+t_opsize	RP(t_memory *mem);
+t_opsize	RPO(t_memory *mem);
+t_opsize	RPE(t_memory *mem);
 t_opsize	RZ(t_memory *mem);
 t_opsize	RC(t_memory *mem);
+t_opsize	RM(t_memory *mem);
+t_opsize	DI(t_memory *mem);
+t_opsize	EI(t_memory *mem);
 t_opsize	RET(t_memory *mem);
 t_opsize	LXI_B(t_memory *mem);
 t_opsize	LXI_D(t_memory *mem);
@@ -207,11 +217,23 @@ t_opsize	CMP_L(t_memory *mem);
 t_opsize	CMP_M(t_memory *mem);
 t_opsize	POP_B(t_memory *mem);
 t_opsize	POP_D(t_memory *mem);
+t_opsize	POP_H(t_memory *mem);
+t_opsize	POP_PSW(t_memory *mem);
 t_opsize	PUSH_B(t_memory *mem);
 t_opsize	PUSH_D(t_memory *mem);
+t_opsize	PUSH_H(t_memory *mem);
+t_opsize	PUSH_PSW(t_memory *mem);
 t_opsize	JNZ(t_memory *mem);
 t_opsize	JNC(t_memory *mem);
+t_opsize	JM(t_memory *mem);
 t_opsize	JMP(t_memory *mem);
+t_opsize	JP(t_memory *mem);
+t_opsize	JPO(t_memory *mem);
+t_opsize	JPE(t_memory *mem);
+t_opsize	CP(t_memory *mem);
+t_opsize	CM(t_memory *mem);
+t_opsize	CPO(t_memory *mem);
+t_opsize	CPE(t_memory *mem);
 t_opsize	CNZ(t_memory *mem);
 t_opsize	CNC(t_memory *mem);
 t_opsize	JZ(t_memory *mem);
@@ -223,11 +245,19 @@ t_opsize	ADI(t_memory *mem);
 t_opsize	ACI(t_memory *mem);
 t_opsize	SUI(t_memory *mem);
 t_opsize	SBI(t_memory *mem);
+t_opsize	ANI(t_memory *mem);
+t_opsize	XRI(t_memory *mem);
+t_opsize	ORI(t_memory *mem);
+t_opsize	CPI(t_memory *mem);
 t_opsize	IN(t_memory *mem);
 t_opsize	OUT(t_memory *mem);
 t_opsize	RST_0(t_memory *mem);
 t_opsize	RST_1(t_memory *mem);
 t_opsize	RST_2(t_memory *mem);
 t_opsize	RST_3(t_memory *mem);
+t_opsize	RST_4(t_memory *mem);
+t_opsize	RST_5(t_memory *mem);
+t_opsize	RST_6(t_memory *mem);
+t_opsize	RST_7(t_memory *mem);
 
 #endif

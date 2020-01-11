@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 17:39:10 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 10:36:04 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/11 10:42:49 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_opsize	disassemble_8080(t_cpu	*cpu)
 	uint8_t	*addr = &cpu->mem[cpu->reg.PC];
 
 	printf ("%04x ", cpu->reg.PC);
-	return (cpu->debug[*addr](addr));
+	return (cpu->asm_instructions_bus[*addr](addr));
 }
 
 /*
@@ -54,11 +54,11 @@ int				main(int ac, char **av)
 		write(1, "error at opening file.\n", 23);
 		return (0);
 	}
-	disassemble_instructions_ini(cpu.debug);
+	disassembler_instructions_ini(cpu.asm_instructions_bus);
 	while (cpu.reg.PC < cpu.ROM_size)
 		cpu.reg.PC += disassemble_8080(&cpu);
 	cpu.reg.PC = 0;
-	//emulation_instructions_ini(cpu.exec);
+	//emulation_instructions_ini(cpu.emu_instructions_bus);
 	//emulate_8080(&cpu);
 	return (0);
 }

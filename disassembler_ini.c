@@ -6,14 +6,14 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 12:14:50 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 10:36:43 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/11 11:09:04 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "disassembler_ini.h"
 #include "asm_instructions.h"
 
-void	disassemble_instructions_ini(t_asm_inst intructions_bus[0xFF])
+void	disassembler_instructions_ini(t_asm_inst intructions_bus[0x100])
 {
 	intructions_bus[0x00] = NOP;
 	intructions_bus[0x01] = LXI_B;
@@ -239,38 +239,36 @@ void	disassemble_instructions_ini(t_asm_inst intructions_bus[0xFF])
 	intructions_bus[0xDD] = CALL;
 	intructions_bus[0xDE] = SBI;
 	intructions_bus[0xDF] = RST_3;
-	/*
-	0xe0: printf("RPO");
-	0xe1: printf("POP    H");
-	0xe2: printf("JPO    $%02x%02x",code[2],code[1]); opbytes = 3;
-	0xe3: printf("XTHL");break;
-	0xe4: printf("CPO    $%02x%02x",code[2],code[1]); opbytes = 3;
-	0xe5: printf("PUSH   H");
-	0xe6: printf("ANI    #$%02x",code[1]); opbytes = 2;
-	0xe7: printf("RST    4");
-	0xe8: printf("RPE");
-	0xe9: printf("PCHL");break;
-	0xea: printf("JPE    $%02x%02x",code[2],code[1]); opbytes = 3;
-	0xeb: printf("XCHG");
-	0xec: printf("CPE     $%02x%02x",code[2],code[1]); opbytes = 3;
-	0xed: printf("CALL   $%02x%02x",code[2],code[1]); opbytes = 3;
-	0xee: printf("XRI    #$%02x",code[1]); opbytes = 2;
-	0xef: printf("RST    5");
-	0xf0: printf("RP"); 
-	0xf1: printf("POP    PSW");
-	0xf2: printf("JP     $%02x%02x",code[2],code[1]); opbytes = 3;
-	0xf3: printf("DI"); 
-	0xf4: printf("CP     $%02x%02x",code[2],code[1]); opbytes = 3;
-	0xf5: printf("PUSH   PSW");
-	0xf6: printf("ORI    #$%02x",code[1]); opbytes = 2;
-	0xf7: printf("RST    6");
-	0xf8: printf("RM"); 
-	0xf9: printf("SPHL");break;
-	0xfa: printf("JM     $%02x%02x",code[2],code[1]); opbytes = 3;
-	0xfb: printf("EI"); 
-	0xfc: printf("CM     $%02x%02x",code[2],code[1]); opbytes = 3;
-	0xfd: printf("CALL   $%02x%02x",code[2],code[1]); opbytes = 3;
-	0xfe: printf("CPI    #$%02x",code[1]); opbytes = 2;
-	0xff: printf("RST    7");
-	*/
+	intructions_bus[0xE0] = RPO;
+	intructions_bus[0xE1] = POP_H;
+	intructions_bus[0xE2] = JPO;
+	intructions_bus[0xE3] = XTHL;
+	intructions_bus[0xE4] = CPO;
+	intructions_bus[0xE5] = PUSH_H;
+	intructions_bus[0xE6] = ANI;
+	intructions_bus[0xE7] = RST_4;
+	intructions_bus[0xE8] = RPE;
+	intructions_bus[0xE9] = PCHL;
+	intructions_bus[0xEA] = JPE;
+	intructions_bus[0xEB] = XCHG;
+	intructions_bus[0xEC] = CPE;
+	intructions_bus[0xED] = CALL;
+	intructions_bus[0xEE] = XRI;
+	intructions_bus[0xEF] = RST_5;
+	intructions_bus[0xF0] = RP;
+	intructions_bus[0xF1] = POP_PSW;
+	intructions_bus[0xF2] = JP;
+	intructions_bus[0xF3] = DI;
+	intructions_bus[0xF4] = CP;
+	intructions_bus[0xF5] = PUSH_PSW;
+	intructions_bus[0xF6] = ORI;
+	intructions_bus[0xF7] = RST_6;
+	intructions_bus[0xF8] = RM;
+	intructions_bus[0xF9] = SPHL;
+	intructions_bus[0xFA] = JM;
+	intructions_bus[0xFB] = EI;
+	intructions_bus[0xFC] = CM;
+	intructions_bus[0xFD] = CALL;
+	intructions_bus[0xFE] = CPI;
+	intructions_bus[0xFF] = RST_7;
 }

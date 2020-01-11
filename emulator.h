@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 17:23:15 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/09 13:57:00 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/11 10:56:32 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ typedef struct		s_cpu
 	t_memory		mem[0x10000]; // 16k
 	uint16_t		ROM_size;
 	t_registers		reg;
-	t_asm_inst		debug[0xFF];
-	t_emu_inst		exec[0xFF];
+	t_asm_inst		asm_instructions_bus[0x100];
+	t_emu_inst		emu_instructions_bus[0x100];
 }					t_cpu;
