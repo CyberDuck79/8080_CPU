@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 13:15:29 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 23:49:16 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/12 00:06:31 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -440,15 +440,14 @@ void	DAD_SP(t_registers *reg,t_memory *mem)
 
 void	LDAX_B(t_registers *reg,t_memory *mem)
 {
-	(void)reg;
-	(void)mem;
-	exit(0);
+	uint16_t offset = (reg->B << 8) | reg->C;
+	reg->A = mem[offset];
 }
 
 void	LDAX_D(t_registers *reg,t_memory *mem)
 {
-	reg->A = mem[reg->PC];
-	reg->PC++;
+	uint16_t offset = (reg->D << 8) | reg->E;
+	reg->A = mem[offset];
 }
 
 void	DCX_B(t_registers *reg,t_memory *mem)
