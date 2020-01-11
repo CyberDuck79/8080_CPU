@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 13:15:29 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 21:59:18 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/11 22:27:15 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ void	SPHL(t_registers *reg,t_memory *mem)
 
 void	XCHG(t_registers *reg,t_memory *mem)
 {
-	uint8_t save = reg->D;
+	uint8_t cache = reg->D;
 	reg->D = reg->H;
-	reg->H = save;
-	save = reg->E;
+	reg->H = cache;
+	cache = reg->E;
 	reg->E = reg->L;
-	reg->L = save;
+	reg->L = cache;
 }
 
 void	PCHL(t_registers *reg,t_memory *mem)
@@ -389,7 +389,7 @@ void	RRC(t_registers *reg,t_memory *mem)
 {
 	uint8_t x = reg->A;
 	reg->A = ((x & 1) << 7) | (x >> 1);
-	reg->CC.CY = (1 == (x&1));
+	reg->CC.CY = (1 == (x & 1));
 }
 
 void	RAL(t_registers *reg,t_memory *mem)
@@ -419,14 +419,14 @@ void	LHLD(t_registers *reg,t_memory *mem)
 
 void	STA(t_registers *reg,t_memory *mem)
 {
-	uint16_t offset = (mem[reg->PC + 1]<<8) | (mem[reg->PC]);
+	uint16_t offset = (mem[reg->PC + 1] << 8) | (mem[reg->PC]);
 	mem[offset] = reg->A;
 	reg->PC += 2;
 }
 
 void	LDA(t_registers *reg,t_memory *mem)
 {
-	uint16_t offset = (mem[reg->PC + 1]<<8) | (mem[reg->PC]);
+	uint16_t offset = (mem[reg->PC + 1] << 8) | (mem[reg->PC]);
 	reg->A = mem[offset];
 	reg->PC += 2;
 }
@@ -584,7 +584,7 @@ void	MOV_DL(t_registers *reg,t_memory *mem)
 
 void	MOV_DM(t_registers *reg,t_memory *mem)
 {
-	uint16_t offset = (reg->H<<8) | (reg->L);
+	uint16_t offset = (reg->H << 8) | (reg->L);
 	reg->D = mem[offset];
 }
 
@@ -624,7 +624,7 @@ void	MOV_EL(t_registers *reg,t_memory *mem)
 
 void	MOV_EM(t_registers *reg,t_memory *mem)
 {
-	uint16_t offset = (reg->H<<8) | (reg->L);
+	uint16_t offset = (reg->H << 8) | (reg->L);
 	reg->E = mem[offset];
 }
 
@@ -1229,7 +1229,7 @@ void	ADI(t_registers *reg,t_memory *mem)
 	uint16_t x = (uint16_t)reg->A + (uint16_t)mem[reg->PC];
 	reg->CC.Z = ((x & 0xff) == 0);
 	reg->CC.S = (0x80 == (x & 0x80));
-	reg->CC.P = parity((x&0xff), 8);
+	reg->CC.P = parity((x & 0xff), 8);
 	reg->CC.CY = (x > 0xff);
 	reg->A = (uint8_t)x;
 	reg->PC++;
