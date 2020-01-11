@@ -6,16 +6,16 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 17:39:10 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 22:22:32 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/11 23:37:16 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "emulator.h"
 #include "disassembler_ini.h"
+#include "emulator_ini.h"
 
 static void		print_registers(t_registers *reg)
 {
-	printf("\t");
 	printf("%c", reg->CC.Z ? 'Z' : '.');
 	printf("%c", reg->CC.S ? 'S' : '.');
 	printf("%c", reg->CC.P ? 'P' : '.');
@@ -28,14 +28,14 @@ static void		print_registers(t_registers *reg)
 	printf("E $%02X ", reg->E);
 	printf("H $%02X ", reg->H);
 	printf("L $%02X ", reg->L);
-	printf("SP $%04X \n", reg->SP);
+	printf("SP $%04X ", reg->SP);
 }
 
 static t_opsize	disassemble_8080(t_computer *computer)
 {
 	uint8_t	*addr = &computer->mem[computer->cpu.reg.PC];
 
-	printf ("%04X ", computer->cpu.reg.PC);
+	printf ("PC $%04X ", computer->cpu.reg.PC);
 	return (computer->asm_instructions_bus[*addr](addr));
 }
 
@@ -47,11 +47,11 @@ static void		emulate_8080(t_computer *computer)
 
 	while (1)
 	{
+		print_registers(&cpu->reg);
 		disassemble_8080(computer);
 		addr = computer->mem[cpu->reg.PC];
-		cpu->emu_instructions_bus[addr](&cpu->reg, computer->mem);
 		cpu->reg.PC++;
-		print_registers(&cpu->reg);
+		cpu->emu_instructions_bus[addr](&cpu->reg, computer->mem);
 	}
 }
 
@@ -99,7 +99,7 @@ int				main(int ac, char **av)
 		computer.cpu.reg.PC += disassemble_8080(&computer);
 	computer.cpu.reg.PC = 0;
 	*/
-	emulation_instructions_ini(computer.cpu.emu_instructions_bus);
+	emulator_instructions_ini(computer.cpu.emu_instructions_bus);
 	emulate_8080(&computer);
 	return (0);
 }
