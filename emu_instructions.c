@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 13:15:29 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/12 00:06:31 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/12 00:16:40 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -440,14 +440,14 @@ void	DAD_SP(t_registers *reg,t_memory *mem)
 
 void	LDAX_B(t_registers *reg,t_memory *mem)
 {
-	uint16_t offset = (reg->B << 8) | reg->C;
-	reg->A = mem[offset];
+	uint16_t addr = (reg->B << 8) | reg->C;
+	reg->A = mem[addr];
 }
 
 void	LDAX_D(t_registers *reg,t_memory *mem)
 {
-	uint16_t offset = (reg->D << 8) | reg->E;
-	reg->A = mem[offset];
+	uint16_t addr = (reg->D << 8) | reg->E;
+	reg->A = mem[addr];
 }
 
 void	DCX_B(t_registers *reg,t_memory *mem)
@@ -524,15 +524,15 @@ void	LHLD(t_registers *reg,t_memory *mem)
 
 void	STA(t_registers *reg,t_memory *mem)
 {
-	uint16_t offset = (mem[reg->PC + 1] << 8) | (mem[reg->PC]);
-	mem[offset] = reg->A;
+	uint16_t addr = (mem[reg->PC + 1] << 8) | (mem[reg->PC]);
+	mem[addr] = reg->A;
 	reg->PC += 2;
 }
 
 void	LDA(t_registers *reg,t_memory *mem)
 {
-	uint16_t offset = (mem[reg->PC + 1] << 8) | (mem[reg->PC]);
-	reg->A = mem[offset];
+	uint16_t addr = (mem[reg->PC + 1] << 8) | (mem[reg->PC]);
+	reg->A = mem[addr];
 	reg->PC += 2;
 }
 
@@ -751,8 +751,8 @@ void	MOV_DL(t_registers *reg,t_memory *mem)
 
 void	MOV_DM(t_registers *reg,t_memory *mem)
 {
-	uint16_t offset = (reg->H << 8) | (reg->L);
-	reg->D = mem[offset];
+	uint16_t addr = (reg->H << 8) | (reg->L);
+	reg->D = mem[addr];
 }
 
 void	MOV_EA(t_registers *reg,t_memory *mem)
@@ -805,8 +805,8 @@ void	MOV_EL(t_registers *reg,t_memory *mem)
 
 void	MOV_EM(t_registers *reg,t_memory *mem)
 {
-	uint16_t offset = (reg->H << 8) | (reg->L);
-	reg->E = mem[offset];
+	uint16_t addr = (reg->H << 8) | (reg->L);
+	reg->E = mem[addr];
 }
 
 void	MOV_HA(t_registers *reg,t_memory *mem)
@@ -921,9 +921,9 @@ void	MOV_LM(t_registers *reg,t_memory *mem)
 
 void	MOV_MA(t_registers *reg,t_memory *mem)
 {
-	(void)reg;
-	(void)mem;
-	exit(0);
+	//	(HL) <- A
+	uint16_t addr = (reg->H << 8) | reg->L;
+	mem[addr] = reg->A;
 }
 
 void	MOV_MB(t_registers *reg,t_memory *mem)
