@@ -6,15 +6,17 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 13:15:29 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 13:24:37 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/11 21:59:18 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "emu_instructions.h"
+#include "emu_inst_utils.h"
 
 void	NOP(t_registers *reg,t_memory *mem)
 {
-	//
+	(void)reg;
+	(void)mem;
 }
 
 void	RLC(t_registers *reg,t_memory *mem)
@@ -49,7 +51,12 @@ void	SPHL(t_registers *reg,t_memory *mem)
 
 void	XCHG(t_registers *reg,t_memory *mem)
 {
-	//
+	uint8_t save = reg->D;
+	reg->D = reg->H;
+	reg->H = save;
+	save = reg->E;
+	reg->E = reg->L;
+	reg->L = save;
 }
 
 void	PCHL(t_registers *reg,t_memory *mem)
@@ -104,17 +111,21 @@ void	DI(t_registers *reg,t_memory *mem)
 
 void	EI(t_registers *reg,t_memory *mem)
 {
-	//
+	(void)mem;
+	reg->int_enable = 1;
 }
 
 void	RET(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->PC = mem[reg->SP] | (mem[reg->SP + 1] << 8);
+	reg->SP += 2;
 }
 
 void	LXI_B(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->C = mem[reg->PC];
+	reg->B = mem[reg->PC + 1];
+	reg->PC += 2;
 }
 
 void	LXI_D(t_registers *reg,t_memory *mem)
@@ -149,7 +160,9 @@ void	INX_B(t_registers *reg,t_memory *mem)
 
 void	INX_D(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->E++;
+	if (reg->E == 0)
+		reg->D++;
 }
 
 void	INX_H(t_registers *reg,t_memory *mem)
@@ -204,37 +217,65 @@ void	INR_M(t_registers *reg,t_memory *mem)
 
 void	DCR_A(t_registers *reg,t_memory *mem)
 {
-	//
+	uint8_t res = reg->A - 1;
+	reg->CC.Z = (res == 0);
+	reg->CC.S = (0x80 == (res & 0x80));
+	reg->CC.P = parity(res, 8);
+	reg->A = res;
 }
 
 void	DCR_B(t_registers *reg,t_memory *mem)
 {
-	//
+	uint8_t res = reg->B - 1;
+	reg->CC.Z = (res == 0);
+	reg->CC.S = (0x80 == (res & 0x80));
+	reg->CC.P = parity(res, 8);
+	reg->B = res;
 }
 
 void	DCR_C(t_registers *reg,t_memory *mem)
 {
-	//
+	uint8_t res = reg->C - 1;
+	reg->CC.Z = (res == 0);
+	reg->CC.S = (0x80 == (res & 0x80));
+	reg->CC.P = parity(res, 8);
+	reg->C = res;
 }
 
 void	DCR_D(t_registers *reg,t_memory *mem)
 {
-	//
+	uint8_t res = reg->D - 1;
+	reg->CC.Z = (res == 0);
+	reg->CC.S = (0x80 == (res & 0x80));
+	reg->CC.P = parity(res, 8);
+	reg->D = res;
 }
 
 void	DCR_E(t_registers *reg,t_memory *mem)
 {
-	//
+	uint8_t res = reg->E - 1;
+	reg->CC.Z = (res == 0);
+	reg->CC.S = (0x80 == (res & 0x80));
+	reg->CC.P = parity(res, 8);
+	reg->E = res;
 }
 
 void	DCR_H(t_registers *reg,t_memory *mem)
 {
-	//
+	uint8_t res = reg->H - 1;
+	reg->CC.Z = (res == 0);
+	reg->CC.S = (0x80 == (res & 0x80));
+	reg->CC.P = parity(res, 8);
+	reg->H = res;
 }
 
 void	DCR_L(t_registers *reg,t_memory *mem)
 {
-	//
+	uint8_t res = reg->L - 1;
+	reg->CC.Z = (res == 0);
+	reg->CC.S = (0x80 == (res & 0x80));
+	reg->CC.P = parity(res, 8);
+	reg->L = res;
 }
 
 void	DCR_M(t_registers *reg,t_memory *mem)
@@ -244,37 +285,44 @@ void	DCR_M(t_registers *reg,t_memory *mem)
 
 void	MVI_A(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->A = mem[reg->PC];
+	reg->PC++;
 }
 
 void	MVI_B(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->B = mem[reg->PC];
+	reg->PC++;
 }
 
 void	MVI_C(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->C = mem[reg->PC];
+	reg->PC++;
 }
 
 void	MVI_D(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->D = mem[reg->PC];
+	reg->PC++;
 }
 
 void	MVI_E(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->E = mem[reg->PC];
+	reg->PC++;
 }
 
 void	MVI_H(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->H = mem[reg->PC];
+	reg->PC++;
 }
 
 void	MVI_L(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->L = mem[reg->PC];
+	reg->PC++;
 }
 
 void	MVI_M(t_registers *reg,t_memory *mem)
@@ -284,7 +332,12 @@ void	MVI_M(t_registers *reg,t_memory *mem)
 
 void	DAD_B(t_registers *reg,t_memory *mem)
 {
-	//
+	uint32_t HL = (reg->H << 8) | reg->L;
+	uint32_t BC = (reg->B << 8) | reg->C;
+	uint32_t res = HL + BC;
+	reg->H = (res & 0xff00) >> 8;
+	reg->L = res & 0xff;
+	reg->CC.CY = ((res & 0xffff0000) > 0);
 }
 
 void	DAD_D(t_registers *reg,t_memory *mem)
@@ -334,7 +387,9 @@ void	DCX_SP(t_registers *reg,t_memory *mem)
 
 void	RRC(t_registers *reg,t_memory *mem)
 {
-	//
+	uint8_t x = reg->A;
+	reg->A = ((x & 1) << 7) | (x >> 1);
+	reg->CC.CY = (1 == (x&1));
 }
 
 void	RAL(t_registers *reg,t_memory *mem)
@@ -364,12 +419,16 @@ void	LHLD(t_registers *reg,t_memory *mem)
 
 void	STA(t_registers *reg,t_memory *mem)
 {
-	//
+	uint16_t offset = (mem[reg->PC + 1]<<8) | (mem[reg->PC]);
+	mem[offset] = reg->A;
+	reg->PC += 2;
 }
 
 void	LDA(t_registers *reg,t_memory *mem)
 {
-	//
+	uint16_t offset = (mem[reg->PC + 1]<<8) | (mem[reg->PC]);
+	reg->A = mem[offset];
+	reg->PC += 2;
 }
 
 void	MOV_AA(t_registers *reg,t_memory *mem)
@@ -525,7 +584,8 @@ void	MOV_DL(t_registers *reg,t_memory *mem)
 
 void	MOV_DM(t_registers *reg,t_memory *mem)
 {
-	//
+	uint16_t offset = (reg->H<<8) | (reg->L);
+	reg->D = mem[offset];
 }
 
 void	MOV_EA(t_registers *reg,t_memory *mem)
@@ -564,7 +624,8 @@ void	MOV_EL(t_registers *reg,t_memory *mem)
 
 void	MOV_EM(t_registers *reg,t_memory *mem)
 {
-	//
+	uint16_t offset = (reg->H<<8) | (reg->L);
+	reg->E = mem[offset];
 }
 
 void	MOV_HA(t_registers *reg,t_memory *mem)
@@ -846,7 +907,8 @@ void	SSB_M(t_registers *reg,t_memory *mem)
 
 void	ANA_A(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->A = reg->A & reg->A;
+	LogicFlagsA(reg);
 }
 
 void	ANA_B(t_registers *reg,t_memory *mem)
@@ -886,7 +948,8 @@ void	ANA_M(t_registers *reg,t_memory *mem)
 
 void	XRA_A(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->A = reg->A ^ reg->A;
+	LogicFlagsA(reg);
 }
 
 void	XRA_B(t_registers *reg,t_memory *mem)
@@ -1006,7 +1069,9 @@ void	CMP_M(t_registers *reg,t_memory *mem)
 
 void	POP_B(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->C = mem[reg->SP];
+	reg->B = mem[reg->SP + 1];
+	reg->SP += 2;
 }
 
 void	POP_D(t_registers *reg,t_memory *mem)
@@ -1021,12 +1086,21 @@ void	POP_H(t_registers *reg,t_memory *mem)
 
 void	POP_PSW(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->A = mem[reg->SP + 1];
+	uint8_t PSW = mem[reg->SP];
+	reg->CC.Z  = (0x01 == (PSW & 0x01));
+	reg->CC.S  = (0x02 == (PSW & 0x02));
+	reg->CC.P  = (0x04 == (PSW & 0x04));
+	reg->CC.CY = (0x05 == (PSW & 0x08));
+	reg->CC.AC = (0x10 == (PSW & 0x10));
+	reg->SP += 2;
 }
 
 void	PUSH_B(t_registers *reg,t_memory *mem)
 {
-	//
+	mem[reg->SP - 1] = reg->B;
+	mem[reg->SP - 2] = reg->C;
+	reg->SP = reg->SP - 2;
 }
 
 void	PUSH_D(t_registers *reg,t_memory *mem)
@@ -1041,12 +1115,24 @@ void	PUSH_H(t_registers *reg,t_memory *mem)
 
 void	PUSH_PSW(t_registers *reg,t_memory *mem)
 {
-	//
+	mem[reg->SP - 1] = reg->A;
+	uint8_t PSW = (
+		reg->CC.Z |
+		reg->CC.S << 1 |
+		reg->CC.P << 2 |
+		reg->CC.CY << 3 |
+		reg->CC.AC << 4
+	);
+	mem[reg->SP - 2] = PSW;
+	reg->SP = reg->SP - 2;
 }
 
 void	JNZ(t_registers *reg,t_memory *mem)
 {
-	//
+	if (reg->CC.Z == 0)
+		reg->PC = (mem[reg->PC + 1] << 8) | mem[reg->PC];
+	else
+		reg->PC += 2;
 }
 
 void	JNC(t_registers *reg,t_memory *mem)
@@ -1061,7 +1147,7 @@ void	JM(t_registers *reg,t_memory *mem)
 
 void	JMP(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->PC = (mem[reg->PC + 1] << 8) | mem[reg->PC];
 }
 
 void	JP(t_registers *reg,t_memory *mem)
@@ -1131,12 +1217,22 @@ void	CC(t_registers *reg,t_memory *mem)
 
 void	CALL(t_registers *reg,t_memory *mem)
 {
-	//
+	uint16_t	ret = reg->PC + 2;
+	mem[reg->SP - 1] = (ret >> 8) & 0xff;
+	mem[reg->SP - 2] = (ret & 0xff);
+	reg->SP = reg->SP - 2;
+	reg->PC = (mem[reg->PC + 1] << 8) | mem[reg->PC];
 }
 
 void	ADI(t_registers *reg,t_memory *mem)
 {
-	//
+	uint16_t x = (uint16_t)reg->A + (uint16_t)mem[reg->PC];
+	reg->CC.Z = ((x & 0xff) == 0);
+	reg->CC.S = (0x80 == (x & 0x80));
+	reg->CC.P = parity((x&0xff), 8);
+	reg->CC.CY = (x > 0xff);
+	reg->A = (uint8_t)x;
+	reg->PC++;
 }
 
 void	ACI(t_registers *reg,t_memory *mem)
@@ -1156,7 +1252,9 @@ void	SBI(t_registers *reg,t_memory *mem)
 
 void	ANI(t_registers *reg,t_memory *mem)
 {
-	//
+	reg->A = reg->A & mem[reg->PC];
+	LogicFlagsA(reg);
+	reg->PC++;
 }
 
 void	XRI(t_registers *reg,t_memory *mem)
@@ -1171,7 +1269,12 @@ void	ORI(t_registers *reg,t_memory *mem)
 
 void	CPI(t_registers *reg,t_memory *mem)
 {
-	//
+	uint8_t x = reg->A - mem[reg->PC];
+	reg->CC.Z = (x == 0);
+	reg->CC.S = (0x80 == (x & 0x80));
+	reg->CC.P = parity(x, 8);
+	reg->CC.CY = (reg->A < mem[reg->PC]);
+	reg->PC++;
 }
 
 void	IN(t_registers *reg,t_memory *mem)
