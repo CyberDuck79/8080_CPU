@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 13:15:29 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 22:27:15 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/11 22:30:00 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	SPHL(t_registers *reg,t_memory *mem)
 
 void	XCHG(t_registers *reg,t_memory *mem)
 {
+	(void)mem;
 	uint8_t cache = reg->D;
 	reg->D = reg->H;
 	reg->H = cache;
@@ -160,6 +161,7 @@ void	INX_B(t_registers *reg,t_memory *mem)
 
 void	INX_D(t_registers *reg,t_memory *mem)
 {
+	(void)mem;
 	reg->E++;
 	if (reg->E == 0)
 		reg->D++;
@@ -217,6 +219,7 @@ void	INR_M(t_registers *reg,t_memory *mem)
 
 void	DCR_A(t_registers *reg,t_memory *mem)
 {
+	(void)mem;
 	uint8_t res = reg->A - 1;
 	reg->CC.Z = (res == 0);
 	reg->CC.S = (0x80 == (res & 0x80));
@@ -226,6 +229,7 @@ void	DCR_A(t_registers *reg,t_memory *mem)
 
 void	DCR_B(t_registers *reg,t_memory *mem)
 {
+	(void)mem;
 	uint8_t res = reg->B - 1;
 	reg->CC.Z = (res == 0);
 	reg->CC.S = (0x80 == (res & 0x80));
@@ -235,6 +239,7 @@ void	DCR_B(t_registers *reg,t_memory *mem)
 
 void	DCR_C(t_registers *reg,t_memory *mem)
 {
+	(void)mem;
 	uint8_t res = reg->C - 1;
 	reg->CC.Z = (res == 0);
 	reg->CC.S = (0x80 == (res & 0x80));
@@ -244,6 +249,7 @@ void	DCR_C(t_registers *reg,t_memory *mem)
 
 void	DCR_D(t_registers *reg,t_memory *mem)
 {
+	(void)mem;
 	uint8_t res = reg->D - 1;
 	reg->CC.Z = (res == 0);
 	reg->CC.S = (0x80 == (res & 0x80));
@@ -253,6 +259,7 @@ void	DCR_D(t_registers *reg,t_memory *mem)
 
 void	DCR_E(t_registers *reg,t_memory *mem)
 {
+	(void)mem;
 	uint8_t res = reg->E - 1;
 	reg->CC.Z = (res == 0);
 	reg->CC.S = (0x80 == (res & 0x80));
@@ -262,6 +269,7 @@ void	DCR_E(t_registers *reg,t_memory *mem)
 
 void	DCR_H(t_registers *reg,t_memory *mem)
 {
+	(void)mem;
 	uint8_t res = reg->H - 1;
 	reg->CC.Z = (res == 0);
 	reg->CC.S = (0x80 == (res & 0x80));
@@ -271,6 +279,7 @@ void	DCR_H(t_registers *reg,t_memory *mem)
 
 void	DCR_L(t_registers *reg,t_memory *mem)
 {
+	(void)mem;
 	uint8_t res = reg->L - 1;
 	reg->CC.Z = (res == 0);
 	reg->CC.S = (0x80 == (res & 0x80));
@@ -332,6 +341,7 @@ void	MVI_M(t_registers *reg,t_memory *mem)
 
 void	DAD_B(t_registers *reg,t_memory *mem)
 {
+	(void)mem;
 	uint32_t HL = (reg->H << 8) | reg->L;
 	uint32_t BC = (reg->B << 8) | reg->C;
 	uint32_t res = HL + BC;
@@ -387,6 +397,7 @@ void	DCX_SP(t_registers *reg,t_memory *mem)
 
 void	RRC(t_registers *reg,t_memory *mem)
 {
+	(void)mem;
 	uint8_t x = reg->A;
 	reg->A = ((x & 1) << 7) | (x >> 1);
 	reg->CC.CY = (1 == (x & 1));
@@ -907,6 +918,7 @@ void	SSB_M(t_registers *reg,t_memory *mem)
 
 void	ANA_A(t_registers *reg,t_memory *mem)
 {
+	(void)mem;
 	reg->A = reg->A & reg->A;
 	LogicFlagsA(reg);
 }
@@ -948,6 +960,7 @@ void	ANA_M(t_registers *reg,t_memory *mem)
 
 void	XRA_A(t_registers *reg,t_memory *mem)
 {
+	(void)mem;
 	reg->A = reg->A ^ reg->A;
 	LogicFlagsA(reg);
 }
