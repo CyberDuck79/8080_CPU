@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 21:15:10 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 21:37:47 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/16 10:47:22 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@ int	parity(int x, int size)
 {
 	int i;
 	int p = 0;
-	x = (x & ((1<<size)-1));
-	for (i=0; i<size; i++)
+	x = (x & ((1 << size) - 1));
+	for (i = 0; i < size; i++)
 	{
-		if (x & 0x1) p++;
-		x = x >> 1;
+		if (x & 0x1)
+			p++;
+		x >>= 1;
 	}
 	return (0 == (p & 0x1));
 }

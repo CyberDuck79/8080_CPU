@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 17:23:15 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 21:56:53 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/17 11:40:44 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct		s_registers
 	uint16_t		SP;
 	uint16_t		PC;
 	t_flags			CC;
-	int				int_enable;
+	uint8_t			INT;
 }					t_registers;
 
 typedef				t_opsize (*t_asm_inst)(t_memory*);

@@ -6,25 +6,108 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 13:15:29 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/12 00:16:40 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/17 11:40:57 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "emu_instructions.h"
 #include "emu_inst_utils.h"
 
+//// redo order by instructions address (WIP)
+
+// no operation
 void	NOP(t_registers *reg,t_memory *mem)
 {
 	(void)reg;
 	(void)mem;
 }
 
+// B <- byte 3, C <- byte 2
+void	LXI_B(t_registers *reg,t_memory *mem)
+{
+	reg->C = mem[reg->PC];
+	reg->B = mem[reg->PC + 1];
+	reg->PC += 2;
+}
+
+// (BC) <- A
+void	STAX_B(t_registers *reg,t_memory *mem)
+{
+	uint16_t BC = (reg->B << 8) | reg->C;
+	mem[BC] = reg->A;
+}
+
+// BC <- BC+1
+void	INX_B(t_registers *reg,t_memory *mem)
+{
+	(void)mem;
+	uint32_t BC = ((reg->B << 8) | reg->C) + 1;
+	reg->B = (BC & 0xff00) >> 8;
+	reg->C = BC & 0xff;
+}
+
+// B <- B+1
+void	INR_B(t_registers *reg,t_memory *mem)
+{
+	(void)mem;
+	reg->B++;
+	reg->CC.Z = (reg->B == 0);
+	reg->CC.S = (0x80 == (reg->B & 0x80));
+	reg->CC.P = parity(reg->B, 8);
+}
+
+// B <- B-1
+void	DCR_B(t_registers *reg,t_memory *mem)
+{
+	(void)mem;
+	reg->B--;
+	reg->CC.Z = (reg->B == 0);
+	reg->CC.S = (0x80 == (reg->B & 0x80));
+	reg->CC.P = parity(reg->B, 8);
+}
+
+// 	B <- byte 2
+void	MVI_B(t_registers *reg,t_memory *mem)
+{
+	reg->B = mem[reg->PC];
+	reg->PC++;
+}
+
+// A = A << 1; bit 0 = prev bit 7; CY = prev bit 7
 void	RLC(t_registers *reg,t_memory *mem)
 {
-	(void)reg;
 	(void)mem;
-	exit(0);
+	reg->CC.CY = (0x80 == (reg->A & 0x80));
+	reg->A = ((reg->A & 0x80) >> 7) | (reg->A << 1);
 }
+
+// HL = HL + BC
+void	DAD_B(t_registers *reg,t_memory *mem)
+{
+	(void)mem;
+	uint32_t HL = ((reg->H << 8) | reg->L) + ((reg->B << 8) | reg->C);
+	reg->H = (HL & 0xff00) >> 8;
+	reg->L = HL & 0xff;
+	reg->CC.CY = ((HL & 0xffff0000) > 0);
+}
+
+// A <- (BC)
+void	LDAX_B(t_registers *reg,t_memory *mem)
+{
+	uint16_t BC = (reg->B << 8) | reg->C;
+	reg->A = mem[BC];
+}
+
+// BC = BC-1
+void	DCX_B(t_registers *reg,t_memory *mem)
+{
+	(void)mem;
+	uint32_t BC = ((reg->B << 8) | reg->C) - 1;
+	reg->B = (BC & 0xff00) >> 8;
+	reg->C = BC & 0xff;
+}
+
+//// continue after understing better the flags
 
 void	STC(t_registers *reg,t_memory *mem)
 {
@@ -137,28 +220,20 @@ void	RM(t_registers *reg,t_memory *mem)
 
 void	DI(t_registers *reg,t_memory *mem)
 {
-	(void)reg;
 	(void)mem;
-	exit(0);
+	reg->INT = 0;
 }
 
 void	EI(t_registers *reg,t_memory *mem)
 {
 	(void)mem;
-	reg->int_enable = 1;
+	reg->INT = 1;
 }
 
 void	RET(t_registers *reg,t_memory *mem)
 {
 	reg->PC = mem[reg->SP] | (mem[reg->SP + 1] << 8);
 	reg->SP += 2;
-}
-
-void	LXI_B(t_registers *reg,t_memory *mem)
-{
-	reg->C = mem[reg->PC];
-	reg->B = mem[reg->PC + 1];
-	reg->PC += 2;
 }
 
 void	LXI_D(t_registers *reg,t_memory *mem)
@@ -181,21 +256,7 @@ void	LXI_SP(t_registers *reg,t_memory *mem)
 	reg->PC += 2;
 }
 
-void	STAX_B(t_registers *reg,t_memory *mem)
-{
-	(void)reg;
-	(void)mem;
-	exit(0);
-}
-
 void	STAX_D(t_registers *reg,t_memory *mem)
-{
-	(void)reg;
-	(void)mem;
-	exit(0);
-}
-
-void	INX_B(t_registers *reg,t_memory *mem)
 {
 	(void)reg;
 	(void)mem;
@@ -225,13 +286,6 @@ void	INX_SP(t_registers *reg,t_memory *mem)
 }
 
 void	INR_A(t_registers *reg,t_memory *mem)
-{
-	(void)reg;
-	(void)mem;
-	exit(0);
-}
-
-void	INR_B(t_registers *reg,t_memory *mem)
 {
 	(void)reg;
 	(void)mem;
@@ -288,16 +342,6 @@ void	DCR_A(t_registers *reg,t_memory *mem)
 	reg->CC.S = (0x80 == (res & 0x80));
 	reg->CC.P = parity(res, 8);
 	reg->A = res;
-}
-
-void	DCR_B(t_registers *reg,t_memory *mem)
-{
-	(void)mem;
-	uint8_t res = reg->B - 1;
-	reg->CC.Z = (res == 0);
-	reg->CC.S = (0x80 == (res & 0x80));
-	reg->CC.P = parity(res, 8);
-	reg->B = res;
 }
 
 void	DCR_C(t_registers *reg,t_memory *mem)
@@ -363,12 +407,6 @@ void	MVI_A(t_registers *reg,t_memory *mem)
 	reg->PC++;
 }
 
-void	MVI_B(t_registers *reg,t_memory *mem)
-{
-	reg->B = mem[reg->PC];
-	reg->PC++;
-}
-
 void	MVI_C(t_registers *reg,t_memory *mem)
 {
 	reg->C = mem[reg->PC];
@@ -406,17 +444,6 @@ void	MVI_M(t_registers *reg,t_memory *mem)
 	exit(0);
 }
 
-void	DAD_B(t_registers *reg,t_memory *mem)
-{
-	(void)mem;
-	uint32_t HL = (reg->H << 8) | reg->L;
-	uint32_t BC = (reg->B << 8) | reg->C;
-	uint32_t res = HL + BC;
-	reg->H = (res & 0xff00) >> 8;
-	reg->L = res & 0xff;
-	reg->CC.CY = ((res & 0xffff0000) > 0);
-}
-
 void	DAD_D(t_registers *reg,t_memory *mem)
 {
 	(void)reg;
@@ -438,23 +465,10 @@ void	DAD_SP(t_registers *reg,t_memory *mem)
 	exit(0);
 }
 
-void	LDAX_B(t_registers *reg,t_memory *mem)
-{
-	uint16_t addr = (reg->B << 8) | reg->C;
-	reg->A = mem[addr];
-}
-
 void	LDAX_D(t_registers *reg,t_memory *mem)
 {
 	uint16_t addr = (reg->D << 8) | reg->E;
 	reg->A = mem[addr];
-}
-
-void	DCX_B(t_registers *reg,t_memory *mem)
-{
-	(void)reg;
-	(void)mem;
-	exit(0);
 }
 
 void	DCX_D(t_registers *reg,t_memory *mem)

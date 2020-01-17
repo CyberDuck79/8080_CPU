@@ -6,11 +6,13 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 12:08:59 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 23:41:02 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/17 11:15:24 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm_instructions.h"
+
+//// redo order by instructions address (WIP)
 
 t_opsize	ASM_NOP(t_memory *mem)
 {
@@ -18,11 +20,67 @@ t_opsize	ASM_NOP(t_memory *mem)
 	return (1);
 }
 
+t_opsize	ASM_LXI_B(t_memory *mem)
+{
+	printf(": %02X | LXI    B,#$%02X%02X\n", *mem, mem[2], mem[1]);
+	return (3);
+}
+
+t_opsize	ASM_STAX_B(t_memory *mem)
+{
+	printf(": %02X | STAX   B\n", *mem);
+	return (1);
+}
+
+t_opsize	ASM_INX_B(t_memory *mem)
+{
+	printf(": %02X | INX    B\n", *mem);
+	return (1);
+}
+
+t_opsize	ASM_INR_B(t_memory *mem)
+{
+	printf(": %02X | INR    B\n", *mem);
+	return (1);
+}
+
+t_opsize	ASM_DCR_B(t_memory *mem)
+{
+	printf(": %02X | DCR    B\n", *mem);
+	return (1);
+}
+
+t_opsize	ASM_MVI_B(t_memory *mem)
+{
+	printf(": %02X | MVI    B,#$%02X\n", *mem, mem[1]);
+	return (2);
+}
+
 t_opsize	ASM_RLC(t_memory *mem)
 {
 	printf(": %02X | RLC\n", *mem);
 	return (1);
 }
+
+t_opsize	ASM_DAD_B(t_memory *mem)
+{
+	printf(": %02X | DAD    B\n", *mem);
+	return (1);
+}
+
+t_opsize	ASM_LDAX_B(t_memory *mem)
+{
+	printf(": %02X | LDAX   B\n", *mem);
+	return (1);
+}
+
+t_opsize	ASM_DCX_B(t_memory *mem)
+{
+	printf(": %02X | DCX    B\n", *mem);
+	return (1);
+}
+
+// Reorder (WIP)
 
 t_opsize	ASM_STC(t_memory *mem)
 {
@@ -132,12 +190,6 @@ t_opsize	ASM_RET(t_memory *mem)
 	return (1);
 }
 
-t_opsize	ASM_LXI_B(t_memory *mem)
-{
-	printf(": %02X | LXI    B,#$%02X%02X\n", *mem, mem[2], mem[1]);
-	return (3);
-}
-
 t_opsize	ASM_LXI_D(t_memory *mem)
 {
 	printf(": %02X | LXI    D,#$%02X%02X\n", *mem, mem[2], mem[1]);
@@ -156,21 +208,9 @@ t_opsize	ASM_LXI_SP(t_memory *mem)
 	return (3);
 }
 
-t_opsize	ASM_STAX_B(t_memory *mem)
-{
-	printf(": %02X | STAX   B\n", *mem);
-	return (1);
-}
-
 t_opsize	ASM_STAX_D(t_memory *mem)
 {
 	printf(": %02X | STAX   D\n", *mem);
-	return (1);
-}
-
-t_opsize	ASM_INX_B(t_memory *mem)
-{
-	printf(": %02X | INX    B\n", *mem);
 	return (1);
 }
 
@@ -195,12 +235,6 @@ t_opsize	ASM_INX_SP(t_memory *mem)
 t_opsize	ASM_INR_A(t_memory *mem)
 {
 	printf(": %02X | INR    A\n", *mem);
-	return (1);
-}
-
-t_opsize	ASM_INR_B(t_memory *mem)
-{
-	printf(": %02X | INR    B\n", *mem);
 	return (1);
 }
 
@@ -246,12 +280,6 @@ t_opsize	ASM_DCR_A(t_memory *mem)
 	return (1);
 }
 
-t_opsize	ASM_DCR_B(t_memory *mem)
-{
-	printf(": %02X | DCR    B\n", *mem);
-	return (1);
-}
-
 t_opsize	ASM_DCR_C(t_memory *mem)
 {
 	printf(": %02X | DCR    C\n", *mem);
@@ -294,12 +322,6 @@ t_opsize	ASM_MVI_A(t_memory *mem)
 	return (2);
 }
 
-t_opsize	ASM_MVI_B(t_memory *mem)
-{
-	printf(": %02X | MVI    B,#$%02X\n", *mem, mem[1]);
-	return (2);
-}
-
 t_opsize	ASM_MVI_C(t_memory *mem)
 {
 	printf(": %02X | MVI    C,#$%02X\n", *mem, mem[1]);
@@ -336,12 +358,6 @@ t_opsize	ASM_MVI_M(t_memory *mem)
 	return (2);
 }
 
-t_opsize	ASM_DAD_B(t_memory *mem)
-{
-	printf(": %02X | DAD    B\n", *mem);
-	return (1);
-}
-
 t_opsize	ASM_DAD_D(t_memory *mem)
 {
 	printf(": %02X | DAD    D\n", *mem);
@@ -360,21 +376,9 @@ t_opsize	ASM_DAD_SP(t_memory *mem)
 	return (1);
 }
 
-t_opsize	ASM_LDAX_B(t_memory *mem)
-{
-	printf(": %02X | LDAX   B\n", *mem);
-	return (1);
-}
-
 t_opsize	ASM_LDAX_D(t_memory *mem)
 {
 	printf(": %02X | LDAX   D\n", *mem);
-	return (1);
-}
-
-t_opsize	ASM_DCX_B(t_memory *mem)
-{
-	printf(": %02X | DCX    B\n", *mem);
 	return (1);
 }
 

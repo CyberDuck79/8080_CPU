@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 13:13:41 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 13:15:03 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/17 11:17:29 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,20 @@
 
 # include "emulator.h"
 
+//// redo order by instructions address
+
 void	NOP(t_registers *reg,t_memory *mem);
+void	LXI_B(t_registers *reg,t_memory *mem);
+void	STAX_B(t_registers *reg,t_memory *mem);
+void	INX_B(t_registers *reg,t_memory *mem);
+void	INR_B(t_registers *reg,t_memory *mem);
+void	DCR_B(t_registers *reg,t_memory *mem);
+void	MVI_B(t_registers *reg,t_memory *mem);
 void	RLC(t_registers *reg,t_memory *mem);
+void	DAD_B(t_registers *reg,t_memory *mem);
+void	LDAX_B(t_registers *reg,t_memory *mem);
+void	DCX_B(t_registers *reg,t_memory *mem);
+//// (WIP)
 void	STC(t_registers *reg,t_memory *mem);
 void	CMC(t_registers *reg,t_memory *mem);
 void	HLT(t_registers *reg,t_memory *mem);
@@ -35,18 +47,14 @@ void	RM(t_registers *reg,t_memory *mem);
 void	DI(t_registers *reg,t_memory *mem);
 void	EI(t_registers *reg,t_memory *mem);
 void	RET(t_registers *reg,t_memory *mem);
-void	LXI_B(t_registers *reg,t_memory *mem);
 void	LXI_D(t_registers *reg,t_memory *mem);
 void	LXI_H(t_registers *reg,t_memory *mem);
 void	LXI_SP(t_registers *reg,t_memory *mem);
-void	STAX_B(t_registers *reg,t_memory *mem);
 void	STAX_D(t_registers *reg,t_memory *mem);
-void	INX_B(t_registers *reg,t_memory *mem);
 void	INX_D(t_registers *reg,t_memory *mem);
 void	INX_H(t_registers *reg,t_memory *mem);
 void	INX_SP(t_registers *reg,t_memory *mem);
 void	INR_A(t_registers *reg,t_memory *mem);
-void	INR_B(t_registers *reg,t_memory *mem);
 void	INR_C(t_registers *reg,t_memory *mem);
 void	INR_D(t_registers *reg,t_memory *mem);
 void	INR_E(t_registers *reg,t_memory *mem);
@@ -54,7 +62,6 @@ void	INR_H(t_registers *reg,t_memory *mem);
 void	INR_L(t_registers *reg,t_memory *mem);
 void	INR_M(t_registers *reg,t_memory *mem);
 void	DCR_A(t_registers *reg,t_memory *mem);
-void	DCR_B(t_registers *reg,t_memory *mem);
 void	DCR_C(t_registers *reg,t_memory *mem);
 void	DCR_D(t_registers *reg,t_memory *mem);
 void	DCR_E(t_registers *reg,t_memory *mem);
@@ -62,20 +69,16 @@ void	DCR_H(t_registers *reg,t_memory *mem);
 void	DCR_L(t_registers *reg,t_memory *mem);
 void	DCR_M(t_registers *reg,t_memory *mem);
 void	MVI_A(t_registers *reg,t_memory *mem);
-void	MVI_B(t_registers *reg,t_memory *mem);
 void	MVI_C(t_registers *reg,t_memory *mem);
 void	MVI_D(t_registers *reg,t_memory *mem);
 void	MVI_E(t_registers *reg,t_memory *mem);
 void	MVI_H(t_registers *reg,t_memory *mem);
 void	MVI_L(t_registers *reg,t_memory *mem);
 void	MVI_M(t_registers *reg,t_memory *mem);
-void	DAD_B(t_registers *reg,t_memory *mem);
 void	DAD_D(t_registers *reg,t_memory *mem);
 void	DAD_H(t_registers *reg,t_memory *mem);
 void	DAD_SP(t_registers *reg,t_memory *mem);
-void	LDAX_B(t_registers *reg,t_memory *mem);
 void	LDAX_D(t_registers *reg,t_memory *mem);
-void	DCX_B(t_registers *reg,t_memory *mem);
 void	DCX_D(t_registers *reg,t_memory *mem);
 void	DCX_H(t_registers *reg,t_memory *mem);
 void	DCX_SP(t_registers *reg,t_memory *mem);
