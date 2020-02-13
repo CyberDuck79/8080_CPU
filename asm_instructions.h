@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 12:08:04 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/17 11:19:42 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/13 18:10:28 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@ t_opsize	ASM_RLC(t_memory *mem);
 t_opsize	ASM_DAD_B(t_memory *mem);
 t_opsize	ASM_LDAX_B(t_memory *mem);
 t_opsize	ASM_DCX_B(t_memory *mem);
+t_opsize	ASM_INR_C(t_memory *mem);
+t_opsize	ASM_DCR_C(t_memory *mem);
+t_opsize	ASM_MVI_C(t_memory *mem);
+t_opsize	ASM_RRC(t_memory *mem);
+t_opsize	ASM_LXI_D(t_memory *mem);
+t_opsize	ASM_STAX_D(t_memory *mem);
+t_opsize	ASM_INX_D(t_memory *mem);
+t_opsize	ASM_INR_D(t_memory *mem);
 //// (WIP)
 t_opsize	ASM_STC(t_memory *mem);
 t_opsize	ASM_CMC(t_memory *mem);
@@ -47,29 +55,22 @@ t_opsize	ASM_RM(t_memory *mem);
 t_opsize	ASM_DI(t_memory *mem);
 t_opsize	ASM_EI(t_memory *mem);
 t_opsize	ASM_RET(t_memory *mem);
-t_opsize	ASM_LXI_D(t_memory *mem);
 t_opsize	ASM_LXI_H(t_memory *mem);
 t_opsize	ASM_LXI_SP(t_memory *mem);
-t_opsize	ASM_STAX_D(t_memory *mem);
-t_opsize	ASM_INX_D(t_memory *mem);
 t_opsize	ASM_INX_H(t_memory *mem);
 t_opsize	ASM_INX_SP(t_memory *mem);
 t_opsize	ASM_INR_A(t_memory *mem);
-t_opsize	ASM_INR_C(t_memory *mem);
-t_opsize	ASM_INR_D(t_memory *mem);
 t_opsize	ASM_INR_E(t_memory *mem);
 t_opsize	ASM_INR_H(t_memory *mem);
 t_opsize	ASM_INR_L(t_memory *mem);
 t_opsize	ASM_INR_M(t_memory *mem);
 t_opsize	ASM_DCR_A(t_memory *mem);
-t_opsize	ASM_DCR_C(t_memory *mem);
 t_opsize	ASM_DCR_D(t_memory *mem);
 t_opsize	ASM_DCR_E(t_memory *mem);
 t_opsize	ASM_DCR_H(t_memory *mem);
 t_opsize	ASM_DCR_L(t_memory *mem);
 t_opsize	ASM_DCR_M(t_memory *mem);
 t_opsize	ASM_MVI_A(t_memory *mem);
-t_opsize	ASM_MVI_C(t_memory *mem);
 t_opsize	ASM_MVI_D(t_memory *mem);
 t_opsize	ASM_MVI_E(t_memory *mem);
 t_opsize	ASM_MVI_H(t_memory *mem);
@@ -82,7 +83,6 @@ t_opsize	ASM_LDAX_D(t_memory *mem);
 t_opsize	ASM_DCX_D(t_memory *mem);
 t_opsize	ASM_DCX_H(t_memory *mem);
 t_opsize	ASM_DCX_SP(t_memory *mem);
-t_opsize	ASM_RRC(t_memory *mem);
 t_opsize	ASM_RAL(t_memory *mem);
 t_opsize	ASM_RAR(t_memory *mem);
 t_opsize	ASM_CMA(t_memory *mem);
