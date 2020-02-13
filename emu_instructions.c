@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 13:15:29 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/13 18:06:22 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/13 18:16:44 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	STAX_B(t_registers *reg,t_memory *mem)
 	mem[BC] = reg->A;
 }
 
-// BC <- BC+1
+// BC <- BC + 1
 void	INX_B(t_registers *reg,t_memory *mem)
 {
 	(void)mem;
@@ -56,7 +56,7 @@ void	INR_B(t_registers *reg,t_memory *mem)
 	reg->CC.P = parity(reg->B, 8);
 }
 
-// B <- B-1
+// B <- B - 1
 void	DCR_B(t_registers *reg,t_memory *mem)
 {
 	(void)mem;
@@ -98,7 +98,7 @@ void	LDAX_B(t_registers *reg,t_memory *mem)
 	reg->A = mem[BC];
 }
 
-// BC = BC-1
+// BC = BC - 1
 void	DCX_B(t_registers *reg,t_memory *mem)
 {
 	(void)mem;
@@ -107,7 +107,7 @@ void	DCX_B(t_registers *reg,t_memory *mem)
 	reg->C = BC & 0xff;
 }
 
-// C <- C+1
+// C <- C + 1
 void	INR_C(t_registers *reg,t_memory *mem)
 {
 	(void)mem;
@@ -117,7 +117,7 @@ void	INR_C(t_registers *reg,t_memory *mem)
 	reg->CC.P = parity(reg->C, 8);
 }
 
-// C <-C-1
+// C <-C - 1
 void	DCR_C(t_registers *reg,t_memory *mem)
 {
 	(void)mem;
@@ -166,7 +166,7 @@ void	INX_D(t_registers *reg,t_memory *mem)
 		reg->D++;
 }
 
-// D <- D+1
+// D <- D + 1
 void	INR_D(t_registers *reg,t_memory *mem)
 {
 	(void)mem;
