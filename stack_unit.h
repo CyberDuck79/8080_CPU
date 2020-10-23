@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   disassembler_ini.h                                 :+:      :+:    :+:   */
+/*   control_unit.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flavienhenrion <flavienhenrion@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 12:13:37 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 10:56:27 by fhenrion         ###   ########.fr       */
+/*   Created: 2020/05/12 11:11:59 by flavienhenr       #+#    #+#             */
+/*   Updated: 2020/05/12 11:23:01 by flavienhenr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DISASSEMBLER_INI_H
-# define DISASSEMBLER_INI_H
+#ifndef CONTROL_UNIT_H
+# define CONTROL_UNIT_H
 
-#include "emulator.h"
+# include "emulator.h"
 
-void	disassembler_instructions_ini(t_asm_inst intructions_bus[0x100]);
+void	POP(t_cpu *cpu, t_u8pair *reg);
+void	PUSH(t_cpu *cpu, t_u8pair reg);
 
 #endif

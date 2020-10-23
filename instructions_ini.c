@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   emulator_ini.c                                     :+:      :+:    :+:   */
+/*   instructions_ini.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flavienhenrion <flavienhenrion@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/11 13:26:15 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 13:27:11 by fhenrion         ###   ########.fr       */
+/*   Created: 2020/05/10 17:09:56 by flavienhenr       #+#    #+#             */
+/*   Updated: 2020/05/10 17:10:40 by flavienhenr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "emulator_ini.h"
-#include "emu_instructions.h"
+#include "emulator.h"
+#include "instruction_bus.h"
 
-void	emulator_instructions_ini(t_emu_inst intructions_bus[0x100])
+void	instructions_ini(t_instruction intructions_bus[0x100])
 {
 	intructions_bus[0x00] = NOP;
 	intructions_bus[0x01] = LXI_B;
@@ -48,13 +48,13 @@ void	emulator_instructions_ini(t_emu_inst intructions_bus[0x100])
 	intructions_bus[0x1E] = MVI_E;
 	intructions_bus[0x1F] = RAR;
 	intructions_bus[0x20] = NOP;
-	intructions_bus[0x21] = NOP;
-	intructions_bus[0x22] = LXI_H;
-	intructions_bus[0x23] = SHLD;
-	intructions_bus[0x24] = INX_H;
-	intructions_bus[0x25] = INR_H;
-	intructions_bus[0x26] = DCR_H;
-	intructions_bus[0x27] = MVI_H;
+	intructions_bus[0x21] = LXI_H;
+	intructions_bus[0x22] = SHLD;
+	intructions_bus[0x23] = INX_H;
+	intructions_bus[0x24] = INR_H;
+	intructions_bus[0x25] = DCR_H;
+	intructions_bus[0x26] = MVI_H;
+	intructions_bus[0x27] = DAA;
 	intructions_bus[0x28] = NOP;
 	intructions_bus[0x29] = DAD_H;
 	intructions_bus[0x2A] = LHLD;
@@ -226,7 +226,7 @@ void	emulator_instructions_ini(t_emu_inst intructions_bus[0x100])
 	intructions_bus[0xD0] = RNC;
 	intructions_bus[0xD1] = POP_D;
 	intructions_bus[0xD2] = JNC;
-	intructions_bus[0xD3] = OUT;
+	intructions_bus[0xD3] = NULL; //
 	intructions_bus[0xD4] = CNC;
 	intructions_bus[0xD5] = PUSH_D;
 	intructions_bus[0xD6] = SUI;
@@ -234,7 +234,7 @@ void	emulator_instructions_ini(t_emu_inst intructions_bus[0x100])
 	intructions_bus[0xD8] = RC;
 	intructions_bus[0xD9] = RET;
 	intructions_bus[0xDA] = JC;
-	intructions_bus[0xDB] = IN;
+	intructions_bus[0xDB] = NULL;
 	intructions_bus[0xDC] = CC;
 	intructions_bus[0xDD] = CALL;
 	intructions_bus[0xDE] = SBI;

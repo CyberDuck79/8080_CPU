@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   emulator.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flavienhenrion <flavienhenrion@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 17:23:15 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/17 11:40:44 by fhenrion         ###   ########.fr       */
+/*   Created: 2020/05/10 16:19:30 by flavienhenr       #+#    #+#             */
+/*   Updated: 2020/06/01 10:18:06 by flavienhenr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,33 @@
 # include <fcntl.h>
 # include <strings.h>
 
-typedef uint8_t		t_memory;
+#define ERROR		-1
+#define FILE_LOADED	0
+#define ROM_SIZE	0x2000
+
 typedef uint16_t	t_opsize;
 
 typedef enum		e_error
 {
-	NO_ERROR,
-	ERROR
+	ROM_WRITE,
+	INPUT_PORT,
+	OUPUT_PORT
 }					t_error;
 
+typedef union		s_u8pair
+{
+	struct
+	{
+		uint8_t		low;
+		uint8_t		high;
+	};
+	uint16_t		pair;
+}					t_u8pair;
+
+/* 
+** INT is an hardware pin and not a CC flag in the original architecture
+** but is implemented as a flag for practical reason.
+*/
 typedef struct		s_flags
 {
 	uint8_t			Z:1;
@@ -36,39 +54,46 @@ typedef struct		s_flags
 	uint8_t			P:1;
 	uint8_t			CY:1;
 	uint8_t			AC:1;
-	uint8_t			PAD:3;
+	uint8_t			INT:1;
+	uint8_t			PAD:2;
 }					t_flags;
 
-typedef struct		s_registers
+/*
+** WZ temporary registers are not used in the same way as in the original
+** architecture but still in a temporary memory way.
+*/
+typedef struct		s_cpu
 {
 	uint8_t			A;
-	uint8_t			B;
-	uint8_t			C;
-	uint8_t			D;
-	uint8_t			E;
-	uint8_t			H;
-	uint8_t			L;
+	t_u8pair		WZ;
+	t_u8pair		BC;
+	t_u8pair		DE;
+	t_u8pair		HL;
 	uint16_t		SP;
 	uint16_t		PC;
 	t_flags			CC;
-	uint8_t			INT;
-}					t_registers;
-
-typedef				t_opsize (*t_asm_inst)(t_memory*);
-typedef				void (*t_emu_inst)(t_registers*,t_memory*);
-
-typedef struct		s_cpu
-{
-	t_registers		reg;
-	t_emu_inst		emu_instructions_bus[0x100];
+	uint8_t			*addr_buff;
+	uint8_t			*memory_bus;
 }					t_cpu;
+
+typedef				t_opsize (*t_assembly)(uint8_t*);
+typedef				void (*t_instruction)(t_cpu*);
+typedef				uint8_t *(*t_input)(t_cpu*);
+typedef				void (*t_output)(t_cpu*);
 
 typedef struct		s_computer
 {
 	t_cpu			cpu;
-	t_memory		mem[0x10000]; // 16k
-	uint16_t		ROM_size;
-	t_asm_inst		asm_instructions_bus[0x100];
+	t_instruction	instruction_bus[0x100];
+	uint8_t			memory_bus[0x10000];
+	t_input			input_bus[8];
+	t_output		output_bus[8];
+	t_assembly		assembly_bus[0x100];
+	ssize_t			program_size;
 }					t_computer;
+
+void	disassembler_ini(t_assembly intruction_bus[0x100]);
+void	instructions_ini(t_instruction intructions_bus[0x100]);
+void	emulation_error(t_error error);
 
 #endif

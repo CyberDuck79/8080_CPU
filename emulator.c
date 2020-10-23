@@ -5,101 +5,101 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 17:39:10 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 23:37:16 by fhenrion         ###   ########.fr       */
+/*   Created: 2020/05/10 16:35:55 by flavienhenr       #+#    #+#             */
+/*   Updated: 2020/10/23 11:12:45 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "emulator.h"
-#include "disassembler_ini.h"
-#include "emulator_ini.h"
+#include <stdio.h>
 
-static void		print_registers(t_registers *reg)
+#define RUNNING 1
+
+/* for debugging
+static void		print_state(t_cpu *cpu)
 {
-	printf("%c", reg->CC.Z ? 'Z' : '.');
-	printf("%c", reg->CC.S ? 'S' : '.');
-	printf("%c", reg->CC.P ? 'P' : '.');
-	printf("%c", reg->CC.CY ? 'C' : '.');
-	printf("%c  ", reg->CC.AC ? 'A' : '.');
-	printf("A $%02X ", reg->A);
-	printf("B $%02X ", reg->B);
-	printf("C $%02X ", reg->C);
-	printf("D $%02X ", reg->D);
-	printf("E $%02X ", reg->E);
-	printf("H $%02X ", reg->H);
-	printf("L $%02X ", reg->L);
-	printf("SP $%04X ", reg->SP);
+	printf("%c", cpu->CC.Z ? 'Z' : '.');
+	printf("%c", cpu->CC.S ? 'S' : '.');
+	printf("%c", cpu->CC.P ? 'P' : '.');
+	printf("%c", cpu->CC.CY ? 'C' : '.');
+	printf("%c  ", cpu->CC.AC ? 'A' : '.');
+	printf("A $%02X ", cpu->A);
+	printf("BC $%04X ", cpu->BC.pair);
+	printf("DE $%04X ", cpu->DE.pair);
+	printf("HL $%04X ", cpu->HL.pair);
+	printf("SP $%04X ", cpu->SP);
+	printf ("PC $%04X ->", cpu->PC);
 }
 
-static t_opsize	disassemble_8080(t_computer *computer)
+static void		disassemble_8080(t_computer *computer, t_cpu *cpu)
 {
-	uint8_t	*addr = &computer->mem[computer->cpu.reg.PC];
+	uint8_t	*opcode;
 
-	printf ("PC $%04X ", computer->cpu.reg.PC);
-	return (computer->asm_instructions_bus[*addr](addr));
-}
-
-// return error if trying to write on ROM addr space ?
-static void		emulate_8080(t_computer *computer)
-{
-	uint8_t	addr;
-	t_cpu	*cpu = &computer->cpu;
-
-	while (1)
+	while (cpu->PC < computer->program_size) // -> is diag stop at ROM ?? there no ROM here
 	{
-		print_registers(&cpu->reg);
-		disassemble_8080(computer);
-		addr = computer->mem[cpu->reg.PC];
-		cpu->reg.PC++;
-		cpu->emu_instructions_bus[addr](&cpu->reg, computer->mem);
+		printf ("PC $%04X ->", cpu->PC);
+		opcode = &computer->memory_bus[cpu->PC];
+		cpu->PC += computer->assembly_bus[*opcode](opcode);
+	}
+}
+*/
+
+static void		cpu_init(t_computer *computer, t_cpu *cpu)
+{
+	cpu->CC.Z = 1;
+	cpu->CC.S = 1;
+	cpu->CC.P = 1;
+	cpu->CC.CY = 0;
+	cpu->CC.AC = 1;
+	cpu->CC.INT = 0;
+	cpu->memory_bus = computer->memory_bus;
+}
+
+static void		emulate_8080(t_computer *computer, t_cpu *cpu)
+{
+	cpu_init(computer, &computer->cpu);
+	while (cpu->PC < ROM_SIZE)
+	{
+		//print_state(cpu);
+		cpu->addr_buff = &computer->memory_bus[cpu->PC];
+		computer->assembly_bus[*cpu->addr_buff](cpu->addr_buff);
+		cpu->PC++;
+		computer->instruction_bus[*cpu->addr_buff](cpu);
 	}
 }
 
-
-static t_error	load_into_memory(t_memory mem[0x2000], char **ROM_files)
+static ssize_t	load_into_memory(uint8_t *memory, char *filename)
 {
-	uint8_t		index = 0;
-	uint16_t	offset[5] = {0, 0x800, 0x1000, 0x1800, 0x2000};
-	uint16_t	addr_space;
-	int			fd;
+	int		fd;
+	ssize_t	read_size = 0;
+	ssize_t	program_size = 0;
 
-	while (index < 4)
-	{
-		fd = open(ROM_files[index], O_RDONLY);
-		if (fd == -1)
-			return (ERROR);
-		addr_space = offset[index + 1] - offset[index];
-		read(fd, mem + offset[index], addr_space);
-		close(fd);
-		index++;
-	}
-	
-	return (NO_ERROR);
+	if ((fd = open(filename, O_RDONLY)) == ERROR)
+		return (ERROR);
+	while ((read_size = read(fd, &memory[program_size], 0x100)) > 0)
+		program_size += read_size;
+	if (read_size == ERROR)
+		return (ERROR);
+	return (program_size);
 }
 
-int				main(int ac, char **av)
+int			main(void)
 {
 	t_computer	computer;
 
 	bzero(&computer, sizeof(computer));
-	computer.ROM_size = 0x2000;
-	if (ac != 5)
+	computer.program_size = load_into_memory(&computer.memory_bus[0x100], "cpudiag.bin");
+	if (computer.program_size == ERROR)
 	{
-		write(1, "USAGE : ROM filenames .h .g .f .e\n", 34);
+		write(1, "error at loading diag program file.\n", 36);
 		return (0);
 	}
-	if (load_into_memory(computer.mem, av + 1))
-	{
-		write(1, "error at opening files.\n", 23);
-		return (0);
-	}
-	disassembler_instructions_ini(computer.asm_instructions_bus);
-	/*
-	while (computer.cpu.reg.PC < computer.ROM_size)
-		computer.cpu.reg.PC += disassemble_8080(&computer);
-	computer.cpu.reg.PC = 0;
-	*/
-	emulator_instructions_ini(computer.cpu.emu_instructions_bus);
-	emulate_8080(&computer);
-	return (0);
+	computer.memory_bus[0] = 0xC3;
+	computer.memory_bus[1] = 0x00;
+	computer.memory_bus[2] = 0x01;
+	computer.memory_bus[368] = 0x7;
+	instructions_ini(computer.instruction_bus);
+	disassembler_ini(computer.assembly_bus);
+	//disassemble_8080(&computer, &computer.cpu);
+	emulate_8080(&computer, &computer.cpu);
 }

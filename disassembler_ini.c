@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   disassembler_ini.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flavienhenrion <flavienhenrion@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 12:14:50 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/11 23:14:24 by fhenrion         ###   ########.fr       */
+/*   Created: 2020/05/10 16:58:29 by flavienhenr       #+#    #+#             */
+/*   Updated: 2020/05/10 17:05:22 by flavienhenr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "disassembler_ini.h"
-#include "asm_instructions.h"
+#include "emulator.h"
+#include "assembly_bus.h"
 
-void	disassembler_instructions_ini(t_asm_inst intructions_bus[0x100])
+void	disassembler_ini(t_assembly intructions_bus[0x100])
 {
 	intructions_bus[0x00] = ASM_NOP;
 	intructions_bus[0x01] = ASM_LXI_B;
@@ -48,13 +48,13 @@ void	disassembler_instructions_ini(t_asm_inst intructions_bus[0x100])
 	intructions_bus[0x1E] = ASM_MVI_E;
 	intructions_bus[0x1F] = ASM_RAR;
 	intructions_bus[0x20] = ASM_NOP;
-	intructions_bus[0x21] = ASM_NOP;
-	intructions_bus[0x22] = ASM_LXI_H;
-	intructions_bus[0x23] = ASM_SHLD;
-	intructions_bus[0x24] = ASM_INX_H;
-	intructions_bus[0x25] = ASM_INR_H;
-	intructions_bus[0x26] = ASM_DCR_H;
-	intructions_bus[0x27] = ASM_MVI_H;
+	intructions_bus[0x21] = ASM_LXI_H;
+	intructions_bus[0x22] = ASM_SHLD;
+	intructions_bus[0x23] = ASM_INX_H;
+	intructions_bus[0x24] = ASM_INR_H;
+	intructions_bus[0x25] = ASM_DCR_H;
+	intructions_bus[0x26] = ASM_MVI_H;
+	intructions_bus[0x27] = ASM_DAA;
 	intructions_bus[0x28] = ASM_NOP;
 	intructions_bus[0x29] = ASM_DAD_H;
 	intructions_bus[0x2A] = ASM_LHLD;
